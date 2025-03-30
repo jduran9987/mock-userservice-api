@@ -1,0 +1,31 @@
+services:
+  mock_data_generator_api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/mock_data_generator_api
+    ports:
+      - "8080:8080"
+    networks:
+      - mock_data_generator_api_network
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mock_data_generator_api
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - mock_data_generator_api_network
+
+volumes:
+  postgres_data:
+
+networks:
+  mock_data_generator_api_network:
+    driver: bridge

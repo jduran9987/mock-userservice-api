@@ -1,0 +1,19 @@
+[project]
+name = "mock-userservice-api"
+version = "0.1.0"
+description = "Mocked User Service for testing."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi[standard]>=0.115.11",
+    "psycopg2-binary>=2.9.10",
+    "sqlmodel>=0.0.23",
+]
+
+[dependency-groups]
+dev = [
+    "pytest-cov>=6.0.0",
+    "pytest>=8.3.5",
+    "mypy>=1.15.0",
+    "ruff>=0.9.9",
+]
