@@ -1,0 +1,19 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  tags:
+    - "v*"
+
+jobs:
+  checks:
+    uses: ./.github/workflows/checks.yml
+
+  build-and-push-image:
+    needs: checks
+    uses: ./.github/workflows/build_and_push_image.yml

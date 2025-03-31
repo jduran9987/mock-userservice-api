@@ -1,13 +1,11 @@
 name: Run Checks
 
 on:
-  push:
-    branches: 
-      - main
-  pull_request:
-    branches:
-      - main
-      
+  workflow_call:
+    secrets:
+      CODECOV_TOKEN:
+        required: true
+
 jobs:
   run-checks:
     runs-on: ubuntu-24.04
