@@ -20,51 +20,51 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
     
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ env.AWS_REGION }}
+    # - name: Configure AWS Credentials
+    #   uses: aws-actions/configure-aws-credentials@v1
+    #   with:
+    #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     aws-region: ${{ env.AWS_REGION }}
 
-    - name: Login To Amazon ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
+    # - name: Login To Amazon ECR
+    #   id: login-ecr
+    #   uses: aws-actions/amazon-ecr-login@v1
     
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
+    # - name: Set up Docker Buildx
+    #   uses: docker/setup-buildx-action@v2
     
-    - name: Generate Image Metadata
-      id: meta
-      uses: docker/metadata-action@v4
-      with:
-        images: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}
-        tags: |
-          type=ref,event=branch
-          type=ref,event=pr
-          type=semver,pattern={{version}}
-          type=semver,pattern={{major}}.{{minor}}
-          type=sha,format=short
-          type=raw,value=latest,enable={{is_default_branch}}
+    # - name: Generate Image Metadata
+    #   id: meta
+    #   uses: docker/metadata-action@v4
+    #   with:
+    #     images: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}
+    #     tags: |
+    #       type=ref,event=branch
+    #       type=ref,event=pr
+    #       type=semver,pattern={{version}}
+    #       type=semver,pattern={{major}}.{{minor}}
+    #       type=sha,format=short
+    #       type=raw,value=latest,enable={{is_default_branch}}
     
-    - name: Build And Push (Pull Request)
-      if: github.event_name == "pull_request"
-      uses: docker/build-push-action@v3
-      with:
-        context: .
-        push: true
-        tags: ${{ steps.login-ecr.outputs.registry }}/dev-${{ env.ECR_REPOSITORY }}:PR-${{ github.event.pull_request.number }}
-        labels: ${{ steps.meta.outputs.labels }}
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
+    # - name: Build And Push (Pull Request)
+    #   if: github.event_name == "pull_request"
+    #   uses: docker/build-push-action@v3
+    #   with:
+    #     context: .
+    #     push: true
+    #     tags: ${{ steps.login-ecr.outputs.registry }}/dev-${{ env.ECR_REPOSITORY }}:PR-${{ github.event.pull_request.number }}
+    #     labels: ${{ steps.meta.outputs.labels }}
+    #     cache-from: type=gha
+    #     cache-to: type=gha,mode=max
 
-    - name: Build And Push (Default)
-      if: github.event_name != "pull_request"
-      uses: docker/build-push-action@v3
-      with:
-        context: .
-        push: true
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
+    # - name: Build And Push (Default)
+    #   if: github.event_name != "pull_request"
+    #   uses: docker/build-push-action@v3
+    #   with:
+    #     context: .
+    #     push: true
+    #     tags: ${{ steps.meta.outputs.tags }}
+    #     labels: ${{ steps.meta.outputs.labels }}
+    #     cache-from: type=gha
+    #     cache-to: type=gha,mode=max
