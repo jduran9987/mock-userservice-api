@@ -48,7 +48,7 @@ jobs:
             type=raw,value=latest,enable={{is_default_branch}}
       
       - name: Build And Push (Pull Request)
-        if: github.event_name == "pull_request"
+        if: github.event_name == 'pull_request'
         uses: docker/build-push-action@v3
         with:
           context: .
@@ -59,7 +59,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Build And Push (Default)
-        if: github.event_name != "pull_request"
+        if: github.event_name != 'pull_request'
         uses: docker/build-push-action@v3
         with:
           context: .
