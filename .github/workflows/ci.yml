@@ -17,3 +17,4 @@ jobs:
   build-and-push-image:
     needs: checks
     uses: ./.github/workflows/build_and_push_image.yml
+    secrets: inherit
