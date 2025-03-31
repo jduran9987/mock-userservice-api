@@ -52,11 +52,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ 
-          github.event_name == 'pull_request' 
-          ? format('{0}/dev-{1}:PR-{2}', steps.login-ecr.outputs.registry, env.ECR_REPOSITORY, github.event.pull_request.number) 
-          : steps.meta.outputs.tags 
-        }}
+        tags: ${{ github.event_name == 'pull_request' ? format('{0}/dev-{1}:PR-{2}', steps.login-ecr.outputs.registry, env.ECR_REPOSITORY, github.event.pull_request.number) : steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
