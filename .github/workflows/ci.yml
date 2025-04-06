@@ -12,8 +12,17 @@ on:
 
 jobs:
   checks:
-    uses: ./.github/workflows/checks.yml
-    secrets: inherit
+    strategy:
+      matrix:
+        python-version:
+          - "3.9"
+          - "3.10"
+          - "3.11"
+          - "3.12"
+      uses: ./.github/workflows/checks.yml
+      with:
+        python-version: ${{ matrix.python-version }}
+      secrets: inherit
 
   build-and-push-image:
     needs: checks

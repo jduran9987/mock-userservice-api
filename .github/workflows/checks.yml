@@ -2,6 +2,10 @@ name: Run Checks
 
 on:
   workflow_call:
+    inputs:
+      python-version:
+        required: true
+        description: 'The Python version to run checks against.'
     secrets:
       CODECOV_TOKEN:
         required: true
@@ -9,13 +13,6 @@ on:
 jobs:
   run-checks:
     runs-on: ubuntu-24.04
-    strategy:
-      matrix:
-        python-version:
-          - "3.9"
-          - "3.10"
-          - "3.11"
-          - "3.12"
 
     steps:
       - name: Checkout Repository
@@ -26,10 +23,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y curl
       
-      - name: Set Up Python ${{ matrix.python-version }}
+      - name: Set Up Python ${{ inputs.python-version }}
         uses: useblacksmith/setup-python@v6
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ inputs.python-version }}
       
       - name: Install UV
         run: |
