@@ -37,4 +37,4 @@ ENV PYTHONPATH="/app:$PYTHONPATH"
 COPY src/ .
 
 # Run the application
-CMD ["python", "-m", "fastapi", "run", "main.py", "--port", "8000"]
+CMD ["python", "-m", "fastapi", "run", "main.py", "--port", "8080"]
